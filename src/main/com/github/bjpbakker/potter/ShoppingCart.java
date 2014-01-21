@@ -16,15 +16,17 @@ public class ShoppingCart {
 		Series series = new Series(cart);
 		while (series.nonEmpty()) {
 			Set<Book> books = takeOptimalDiscount(series);
-			float discount = discount(books.size());
-			Long subtotal = books.stream()
-					.map(book -> book.price)
-					.map(price -> applyDiscount(discount, price))
-					.reduce(0L, (acc, price) -> acc + price);
-			total += subtotal;
+			total += subtotal(books, discount(books.size()));
 			series = series.drop(books);
 		}
 		return total;
+	}
+
+	private Long subtotal(Set<Book> books, float discount) {
+		return books.stream()
+					.map(book -> book.price)
+					.map(price -> applyDiscount(discount, price))
+					.reduce(0L, (acc, price) -> acc + price);
 	}
 
 	private Long applyDiscount(float discount, Long price) {
