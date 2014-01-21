@@ -70,18 +70,12 @@ public class ShoppingCart {
 
 	private float discount(int distinctBooks) {
 		switch (distinctBooks) {
-			case 1:
-				return 1f;
-			case 2:
-				return 0.95f;
-			case 3:
-				return 0.9f;
-			case 4:
-				return 0.8f;
-			case 5:
-				return 0.75f;
-			default:
-				return Float.NaN;
+			case 1: return 1f;
+			case 2: return 0.95f;
+			case 3: return 0.9f;
+			case 4: return 0.8f;
+			case 5: return 0.75f;
+			default: return Float.NaN;
 		}
 	}
 }
