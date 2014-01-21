@@ -1,8 +1,10 @@
 package com.github.bjpbakker.potter;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.Collections.emptyList;
 
 public class ShoppingCart {
 	private List<Book> cart;
@@ -12,14 +14,17 @@ public class ShoppingCart {
 	}
 
 	public Long calculateTotal() {
-		Long total = 0L;
-		Series series = new Series(cart);
-		while (series.nonEmpty()) {
+		return total(new Series(cart));
+	}
+
+	private Long total(Series series) {
+		if (series.isEmpty()) {
+			return 0L;
+		} else {
 			Set<Book> books = takeOptimalDiscount(series);
-			total += subtotal(books, discount(books.size()));
-			series = series.drop(books);
+			Long subtotal = subtotal(books, discount(books.size()));
+			return subtotal + total(series.drop(books));
 		}
-		return total;
 	}
 
 	private Long subtotal(Set<Book> books, float discount) {
@@ -48,13 +53,19 @@ public class ShoppingCart {
 	}
 
 	private List<Set<Book>> collect(Series series) {
-		List<Set<Book>> all = new LinkedList<>();
-		while (series.nonEmpty()) {
+		if (series.isEmpty()) {
+			return emptyList();
+		} else {
 			Set<Book> taken = series.take();
-			all.add(taken);
-			series = series.drop(taken);
+			return cons(taken, collect(series.drop(taken)));
 		}
-		return all;
+	}
+
+	private List<Set<Book>> cons(Set<Book> x, List<Set<Book>> coll) {
+		List<Set<Book>> list = new ArrayList<>(coll.size() + 1);
+		list.add(x);
+		list.addAll(coll);
+		return list;
 	}
 
 	private float discount(int distinctBooks) {

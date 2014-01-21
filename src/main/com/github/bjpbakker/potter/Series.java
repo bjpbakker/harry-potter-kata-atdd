@@ -23,8 +23,8 @@ public class Series {
 		return series;
 	}
 
-	public boolean nonEmpty() {
-		return !byTitle.isEmpty();
+	public boolean isEmpty() {
+		return byTitle.isEmpty();
 	}
 
 	public Set<Book> takeLimited(int limit) {

@@ -64,13 +64,13 @@ public class SeriesTest {
 	@Test
 	public void series_of_empty_book_list_should_be_empty() throws Exception {
 		Series emptySeries = new Series(emptyList());
-		assertThat("should be empty", !emptySeries.nonEmpty());
+		assertThat("#isEmpty should be true", emptySeries.isEmpty());
 	}
 
 	@Test
 	public void series_with_books_should_be_non_empty() throws Exception {
 		Series series = new Series(asList(new Book("I", 0L)));
-		assertThat("should be non-empty", series.nonEmpty());
+		assertThat("#isEmpty should be false", !series.isEmpty());
 	}
 
 	private Set<Book> asSet(Book... books) {
