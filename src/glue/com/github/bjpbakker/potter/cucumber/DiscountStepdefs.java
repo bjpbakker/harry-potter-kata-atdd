@@ -1,18 +1,18 @@
 package com.github.bjpbakker.potter.cucumber;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Optional;
-
-import cucumber.api.java.en.When;
-import cucumber.api.java.en.Then;
-
 import com.github.bjpbakker.potter.Book;
 import com.github.bjpbakker.potter.ShoppingCart;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.IntStream.range;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 
 public class DiscountStepdefs {
 	private static final List<Book> series = asList(
@@ -27,10 +27,8 @@ public class DiscountStepdefs {
 
 	@When("^I buy (\\d+) cop(?:y|ies) of \"([^\"]*)\"$")
 	public void I_buy_copy_of(int numberOfCopies, String title) throws Throwable {
-		for (int i = 0; i < numberOfCopies; i++) {
-			Book book = bookByTitle(title).orElseThrow(() -> new UnknownTitle(title));
-			this.cart.add(book);
-		}
+		Book book = bookByTitle(title).orElseThrow(() -> new UnknownTitle(title));
+		range(0, numberOfCopies).forEach(n -> this.cart.add(book));
 	}
 
 	@Then("^I must pay \\$(\\d+.?\\d*)$")
