@@ -1,16 +1,5 @@
 Feature: Harry Potter book sale
 
-  Scenario: buy single book from the series
-
-    When I buy 1 copy of "Harry Potter I"
-    Then I must pay $8
-
-  Scenario: buy two distinct books from the series
-
-    When I buy 1 copy of "Harry Potter I"
-    And I buy 1 copy of "Harry Potter II"
-    Then I must pay $15.20
-
   Scenario Outline: buy discounted Harry Potter books
 
     When I buy <I> copies of "Harry Potter I"
